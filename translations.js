@@ -478,8 +478,8 @@ function updateSocialMediaImage(lang) {
         console.log('✅ 使用繁體中文圖片:', imageName);
     }
     
-    const baseUrl = 'https://ifittw01-ai.github.io/AI-PT/data/';
-    const cacheBust = '?v=20260221b';
+    const baseUrl = 'https://lambent-pothos-ddb830.netlify.app/data/';
+    const cacheBust = '?v=20260818';
     const imageUrl = baseUrl + imageName + cacheBust;
     
     // 更新 Open Graph 圖片（Facebook、LINE 等會讀取）
