@@ -33,48 +33,6 @@
     });
 })();
 
-// 图片渐进式加载效果
-document.addEventListener('DOMContentLoaded', () => {
-    const images = document.querySelectorAll('img');
-    
-    images.forEach(img => {
-        // 如果图片已经加载完成（来自缓存）
-        if (img.complete) {
-            img.classList.add('loaded');
-        } else {
-            // 监听图片加载完成事件
-            img.addEventListener('load', () => {
-                img.classList.add('loaded');
-            });
-            
-            // 处理加载错误
-            img.addEventListener('error', () => {
-                img.classList.add('loaded');
-            });
-        }
-    });
-    
-    // 使用 Intersection Observer 优化懒加载
-    if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.classList.add('loaded');
-                }
-            });
-        }, {
-            rootMargin: '50px' // 提前50px开始加载
-        });
-        
-        images.forEach(img => {
-            if (img.loading === 'lazy') {
-                imageObserver.observe(img);
-            }
-        });
-    }
-});
-
 // 從 URL 獲取推廣代碼
 function getReferralCode() {
     const urlParams = new URLSearchParams(window.location.search);

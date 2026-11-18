@@ -6,25 +6,26 @@
 }
 
 :root {
-    --primary-color: #ff6b35;
-    --secondary-color: #f7931e;
-    --success-color: #28a745;
-    --dark-bg: #1a1a2e;
-    --light-bg: #eaf3ff;
-    --text-dark: #2c3e50;
-    --text-light: #6c757d;
+    --primary-color: #2d6a4f;
+    --secondary-color: #52b788;
+    --success-color: #16a34a;
+    --dark-bg: #1b4332;
+    --light-bg: #ecfdf5;
+    --page-bg: #74c69d;
+    --page-bg-deep: #52b788;
+    --text-dark: #1b4332;
+    --text-light: #52796f;
     --white: #ffffff;
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --gradient-warm: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.15);
+    --gradient-primary: linear-gradient(135deg, #52b788 0%, #2d6a4f 100%);
+    --gradient-warm: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    --shadow: 0 10px 30px rgba(27, 67, 50, 0.12);
+    --shadow-hover: 0 15px 40px rgba(27, 67, 50, 0.18);
 }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "微軟正黑體", Roboto, "Helvetica Neue", Arial, sans-serif;
     line-height: 1.6;
     color: var(--text-dark);
-    background-color: #3b82f6;
 }
 
 /* 页面加载进度条 */
@@ -34,26 +35,17 @@ body {
     left: 0;
     width: 0%;
     height: 3px;
-    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    background: linear-gradient(90deg, #95d5b2, #52b788, #2d6a4f);
     z-index: 9999;
     transition: width 0.3s ease;
-    box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+    box-shadow: 0 0 10px rgba(45, 106, 79, 0.45);
 }
 
-/* 图片渐进式加载效果 */
+/* 图片：始终显示（不先用 opacity:0 隐藏，避免线上看起来像空白页） */
 img {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-img.loaded {
     opacity: 1;
-}
-
-img[loading="lazy"] {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
+    max-width: 100%;
+    height: auto;
 }
 
 @keyframes loading {
@@ -251,22 +243,25 @@ body {
     }
 }
 
-/* 全頁藍色背景（高優先權） */
-body,
-.top-banner,
+/* 全頁綠色背景（與主視覺圖、植栽綠色調一致） */
+body {
+    background: linear-gradient(180deg, #d8f3dc 0%, #95d5b2 35%, #74c69d 70%, #52b788 100%) !important;
+    background-attachment: fixed !important;
+}
+
 .hero-image-section,
 .hero-section,
 .video-section,
 .target-audience,
 .comparison-section,
 .new-daily-life,
-.testimonials,
 .faq-section,
-.form-section,
-.short-video-note,
-.footer,
-section {
-    background: #3b82f6 !important;
+.short-video-note {
+    background: transparent;
+}
+
+.footer {
+    background: var(--dark-bg) !important;
 }
 
 /* 報名頁面（模態框）保持白色背景 */
@@ -358,7 +353,7 @@ section {
 
 /* Hero Section */
 .hero-section {
-    background: var(--light-bg);
+    background: transparent;
     padding: 60px 0;
     text-align: center;
 }
@@ -439,14 +434,14 @@ section {
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 20px rgba(245, 87, 108, 0.3);
+    box-shadow: 0 8px 20px rgba(234, 88, 12, 0.35);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .cta-button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(245, 87, 108, 0.4);
+    box-shadow: 0 12px 30px rgba(234, 88, 12, 0.45);
 }
 
 .cta-button.large {
@@ -556,7 +551,7 @@ section {
     aspect-ratio: 1200 / 630;
     display: block;
     margin: 20px auto 0;
-    background: url("data/top5.jpg") center / contain no-repeat;
+    background: url("data/top5.png") center / contain no-repeat;
     border: none;
     padding: 0;
     cursor: pointer;
@@ -595,11 +590,11 @@ section {
     font-weight: 800;
     color: var(--white);
     text-shadow: 
-        -2px -2px 0 #667eea,
-        2px -2px 0 #667eea,
-        -2px 2px 0 #667eea,
-        2px 2px 0 #667eea,
-        0 0 20px rgba(102, 126, 234, 0.8);
+        -2px -2px 0 #2d6a4f,
+        2px -2px 0 #2d6a4f,
+        -2px 2px 0 #2d6a4f,
+        2px 2px 0 #2d6a4f,
+        0 0 20px rgba(45, 106, 79, 0.8);
     letter-spacing: 3px;
     animation: textPulse 2s ease-in-out infinite;
 }
@@ -608,27 +603,27 @@ section {
     0%, 100% {
         transform: scale(1);
         text-shadow: 
-            -2px -2px 0 #667eea,
-            2px -2px 0 #667eea,
-            -2px 2px 0 #667eea,
-            2px 2px 0 #667eea,
-            0 0 20px rgba(102, 126, 234, 0.8);
+            -2px -2px 0 #2d6a4f,
+            2px -2px 0 #2d6a4f,
+            -2px 2px 0 #2d6a4f,
+            2px 2px 0 #2d6a4f,
+            0 0 20px rgba(45, 106, 79, 0.8);
     }
     50% {
         transform: scale(1.05);
         text-shadow: 
-            -2px -2px 0 #764ba2,
-            2px -2px 0 #764ba2,
-            -2px 2px 0 #764ba2,
-            2px 2px 0 #764ba2,
-            0 0 30px rgba(118, 75, 162, 1);
+            -2px -2px 0 #1b4332,
+            2px -2px 0 #1b4332,
+            -2px 2px 0 #1b4332,
+            2px 2px 0 #1b4332,
+            0 0 30px rgba(27, 67, 50, 1);
     }
 }
 
 /* 目标受众 */
 .target-audience {
     padding: 80px 0;
-    background: var(--light-bg);
+    background: transparent;
 }
 
 .section-title {
@@ -755,7 +750,7 @@ section {
 }
 
 .after-box {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
     color: var(--white);
 }
 
@@ -794,7 +789,7 @@ section {
 /* 新日常 */
 .new-daily-life {
     padding: 80px 0;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, #f0fdf4 0%, #b7e4c7 100%);
 }
 
 .daily-life-image {
@@ -916,7 +911,7 @@ section {
 /* 学员评价 */
 .testimonials {
     padding: 80px 0;
-    background: #1a2a4e;
+    background: linear-gradient(180deg, rgba(27, 67, 50, 0.55) 0%, rgba(45, 106, 79, 0.4) 100%);
 }
 
 .testimonials .section-title {
@@ -1044,7 +1039,7 @@ section {
 /* 订单摘要 */
 .order-summary {
     padding: 80px 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
 }
 
 .order-box {
@@ -1326,7 +1321,7 @@ section {
 .modal-header {
     text-align: center;
     padding: 40px 40px 30px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
     color: var(--white);
     border-radius: 20px 20px 0 0;
 }
@@ -1455,7 +1450,7 @@ section {
 }
 
 .guarantee-badge {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--gradient-primary);
     color: var(--white);
     padding: 15px;
     border-radius: 10px;
@@ -1529,8 +1524,8 @@ section {
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #667eea;
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    border-color: #2d6a4f;
+    box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.1);
 }
 
 .form-group input::placeholder {
@@ -1575,13 +1570,13 @@ section {
 }
 
 .option-card:hover {
-    border-color: #667eea;
+    border-color: #2d6a4f;
 }
 
 .option-card.selected {
-    border-color: #667eea;
-    background: linear-gradient(135deg, rgba(102, 126, 234, 0.12), rgba(118, 75, 162, 0.08));
-    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+    border-color: #2d6a4f;
+    background: linear-gradient(135deg, rgba(45, 106, 79, 0.12), rgba(27, 67, 50, 0.08));
+    box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
     font-weight: 600;
 }
 
@@ -1641,12 +1636,12 @@ section {
 }
 
 .payment-option input[type="radio"]:checked + .payment-label {
-    border-color: #667eea;
-    background: rgba(102, 126, 234, 0.05);
+    border-color: #2d6a4f;
+    background: rgba(45, 106, 79, 0.05);
 }
 
 .payment-label:hover {
-    border-color: #667eea;
+    border-color: #2d6a4f;
 }
 
 .payment-icon {
@@ -1671,7 +1666,7 @@ section {
 }
 
 .checkbox-label a {
-    color: #667eea;
+    color: #2d6a4f;
     text-decoration: none;
 }
 
@@ -1703,12 +1698,12 @@ section {
     justify-content: center;
     gap: 10px;
     transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 8px 25px rgba(45, 106, 79, 0.3);
 }
 
 .submit-info-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+    box-shadow: 0 12px 35px rgba(45, 106, 79, 0.4);
 }
 
 .submit-info-btn:disabled {
@@ -1770,7 +1765,7 @@ section {
 }
 
 .view-data-link a {
-    color: #667eea;
+    color: #2d6a4f;
     text-decoration: none;
     font-weight: 600;
     font-size: 1rem;
@@ -1783,7 +1778,7 @@ section {
 }
 
 .view-data-link a:hover {
-    background: rgba(102, 126, 234, 0.1);
+    background: rgba(45, 106, 79, 0.1);
     transform: translateY(-2px);
 }
 
