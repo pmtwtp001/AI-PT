@@ -96,7 +96,7 @@ const translations = {
         
         // 表單
         'modal-title': '🎉 立即獲取優惠',
-        'modal-subtitle': '填寫資料，開始您的AI自媒體創業之旅',
+        'modal-subtitle': '填寫資料，開始您的 AI自媒體零元創業 之旅',
         'form-section-title': '📋 您的資料',
         'form-name': '姓名(實名制)',
         'form-name-placeholder': '請輸入您的全名',

@@ -1,4 +1,4 @@
-﻿# Netlify deploy pack - includes all assets referenced in index.html
+# Netlify deploy pack - includes all assets referenced in index.html
 # Run: powershell -ExecutionPolicy Bypass -File scripts/pack-netlify.ps1
 
 $ErrorActionPreference = 'Stop'
@@ -17,6 +17,8 @@ $coreFiles = @(
     'translations.js',
     'netlify.toml'
 )
+
+# 切勿加入 /* -> index.html 的 _redirects：會讓 /data/*.png 也變成 HTML，整頁圖片空白
 
 $requiredAssets = @(
     'top.png', 'top1.png', 'top2.png', 'top3.png', 'top4.png', 'top5.png',
@@ -109,6 +111,24 @@ if ($missing.Count -gt 0) {
 
 $stamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
 $manifestPath = Join-Path $deploy 'ASSET_MANIFEST.txt'
+$uploadHint = Join-Path $deploy '!!!請拖放此資料夾到Netlify-Deploys.txt'
+@(
+    '【重要 — 避免網站空白】',
+    '',
+    '1. https://app.netlify.com -> lambent-pothos-ddb830 -> Deploys',
+    '2. 拖入「整個 netlify-deploy 資料夾」（不是 zip 父層、不是只有 index.html）',
+    '3. 部署後開啟：',
+    '   https://lambent-pothos-ddb830.netlify.app/data/top.png',
+    '   必須看到宣傳圖；若 404 或網頁文字 = 部署錯誤',
+    '',
+    "本包 data 檔案數：$copied",
+    '切勿加入 _redirects（/* -> index.html 會讓圖片全壞）'
+) | Set-Content -Path $uploadHint -Encoding UTF8
+
+if (-not (Test-Path (Join-Path $dataDst 'top.png'))) {
+    throw 'Pack error: data/top.png missing in deploy folder'
+}
+
 $lines = @(
     'Netlify deploy pack',
     "Built: $stamp",

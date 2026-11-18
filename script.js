@@ -198,10 +198,9 @@ function initFAQ() {
 
 // CTA按钮点击处理 - 打开模态框
 function initCTAButtons() {
-    const ctaButtons = document.querySelectorAll('.cta-button');
-    const modal = document.getElementById('orderModal');
+    const openRegisterTargets = document.querySelectorAll('.cta-button, .open-register-on-click');
     
-    ctaButtons.forEach(button => {
+    openRegisterTargets.forEach(button => {
         button.addEventListener('click', () => {
             openModal();
         });
@@ -241,7 +240,7 @@ function showSuccessPage(userName, userRegion) {
             <h2 style="color: #2ecc71; margin-bottom: 10px;">提交成功！</h2>
             <p style="font-size: 1.1rem; color: #333; margin-bottom: 30px;">
                 感謝 <strong>${userName}</strong>！<br>
-                您已成功報名${regionText}，
+                您已成功報名<strong>「AI自媒體零元創業」</strong>${regionText}，
             </p>
             
             <div style="margin: 30px auto; max-width: 500px;">
@@ -747,13 +746,21 @@ async function loadRegionOptions(country = 'TW') {
 
     try {
         const response = await fetch(GOOGLE_SCRIPT_URL + '?action=getRegions&country=' + country);
-        const result = await response.json();
+        const raw = await response.text();
+        let result;
+        try {
+            result = JSON.parse(raw);
+        } catch (parseErr) {
+            console.error('❌ 評估地點 API 未回傳 JSON（請在 Google Apps Script 重新部署）', raw.slice(0, 300));
+            renderRegionCards(getDefaultRegions(country));
+            return;
+        }
 
         if (result.success && result.regions && result.regions.length > 0) {
             renderRegionCards(result.regions);
             console.log('✅ 成功載入 ' + result.regions.length + ' 個評估地點（' + country + '）');
         } else {
-            console.warn('⚠️ 載入評估地點失敗，使用預設選項');
+            console.warn('⚠️ 後端回傳 0 筆地點（count=' + (result.count ?? 0) + '），請檢查試算表「是否啟用」與欄位格式');
             renderRegionCards(getDefaultRegions(country));
         }
     } catch (error) {

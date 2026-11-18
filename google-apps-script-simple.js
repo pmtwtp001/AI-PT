@@ -12,6 +12,7 @@ const SHEET_NAME_PROMOTERS = '推廣人員';  // 推广人员工作表
 const SHEET_NAME_REGIONS = '評估地點';    // 评估地点工作表
 const SHEET_NAME_CUSTOMERS = '客戶報名記錄';  // 客户报名记录工作表
 const DEFAULT_EMAIL = 'jordantsai777@gmail.com';
+const PROGRAM_NAME = 'AI自媒體零元創業';
 const CACHE_DURATION = 600;  // 缓存时间（秒）- 10 分钟
 const CUSTOMER_HEADERS = [
   '報名時間', '客戶姓名', '電話號碼', '電子郵件',
@@ -48,7 +49,7 @@ function getPromoterMapping() {
     for (let i = 1; i < data.length; i++) {
       const refCode = String(data[i][0]).trim();
       const email = String(data[i][1]).trim();
-      const name = String(data[i][2] || '').trim() || 'AI+自媒體零元創業';  // C列：姓名，如果没有则使用默认值
+      const name = String(data[i][2] || '').trim() || PROGRAM_NAME;  // C列：姓名，如果没有则使用默认值
       
       if (refCode && email) {
         mapping[refCode] = {
@@ -72,44 +73,104 @@ function getPromoterMapping() {
 // ========================================
 // 获取评估地点列表（简化版 - 只读取数据）
 // ========================================
-function getRegionList() {
+function isTruthyActive_(value) {
+  const v = String(value == null ? '' : value).trim();
+  if (!v) return true;
+  if (v === '否' || v === 'no' || v === 'NO' || v === 'false' || v === 'FALSE' || v === '0') return false;
+  return v === '是' || v === 'yes' || v === 'YES' || v === 'true' || v === 'TRUE' || v === '1';
+}
+
+function resolveRegionColumns_(headerRow) {
+  const headers = headerRow.map(h => String(h || '').trim());
+  const find = (patterns, fallback) => {
+    const idx = headers.findIndex(h => patterns.some(p => h.indexOf(p) !== -1));
+    return idx >= 0 ? idx : fallback;
+  };
+
+  const isFull = headers.some(h =>
+    h.indexOf('開始日期') !== -1 || h.indexOf('开始日期') !== -1 || h.indexOf('最大容量') !== -1
+  );
+
+  if (isFull) {
+    return {
+      id: find(['選項ID', '选项ID'], 0),
+      sort: find(['排序'], 1),
+      desc: find(['完整描述', '地點描述', '地点描述'], 2),
+      endDate: find(['結束日期', '结束日期'], 4),
+      enabled: find(['是否啟用', '是否启用'], 7),
+      country: find(['國家', '国家'], -1),
+      language: find(['語言', '语言'], -1)
+    };
+  }
+
+  return {
+    id: 0,
+    sort: 1,
+    desc: 2,
+    endDate: -1,
+    enabled: find(['是否啟用', '是否启用'], 3),
+    country: find(['國家', '国家'], -1),
+    language: -1
+  };
+}
+
+function getRegionList(country) {
   try {
-    Logger.log('📍 正在读取评估地点列表...');
-    
+    Logger.log('📍 正在读取评估地点列表... 國家: ' + (country || 'ALL'));
+
     const spreadsheet = SpreadsheetApp.openById(SPREADSHEET_ID);
     const sheet = spreadsheet.getSheetByName(SHEET_NAME_REGIONS);
-    
+
     if (!sheet) {
       Logger.log('❌ 找不到工作表: ' + SHEET_NAME_REGIONS);
       return [];
     }
-    
+
     const data = sheet.getDataRange().getValues();
-    const regions = [];
-    
-    // 从第二列开始读取（第一列是标题）
-    for (let i = 1; i < data.length; i++) {
-      const id = String(data[i][0]).trim();        // A列：选项ID
-      const sortOrder = data[i][1] || 999;         // B列：排序
-      const fullDesc = String(data[i][2]).trim();  // C列：完整描述
-      const enabled = String(data[i][3]).trim();   // D列：是否启用
-      
-      // 只检查是否启用
-      if (enabled === '是' && id && fullDesc) {
-        regions.push({
-          id: id,
-          text: fullDesc,
-          sortOrder: sortOrder
-        });
-      }
+    if (data.length < 2) {
+      Logger.log('⚠️ 評估地點工作表沒有資料列');
+      return [];
     }
-    
-    // 按排序顺序排列
+
+    const cols = resolveRegionColumns_(data[0]);
+    Logger.log('📋 評估地點欄位對應: ' + JSON.stringify(cols));
+
+    const regions = [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const countryCode = String(country || '').trim().toUpperCase();
+
+    for (let i = 1; i < data.length; i++) {
+      const row = data[i];
+      const id = String(row[cols.id] || '').trim();
+      const sortOrder = Number(row[cols.sort]) || 999;
+      const fullDesc = String(row[cols.desc] || '').trim();
+
+      if (!id || !fullDesc) continue;
+      if (!isTruthyActive_(row[cols.enabled])) continue;
+
+      if (cols.country >= 0 && countryCode) {
+        const rowCountry = String(row[cols.country] || '').trim().toUpperCase();
+        if (rowCountry && rowCountry !== countryCode) continue;
+      }
+
+      if (cols.endDate >= 0 && row[cols.endDate] instanceof Date) {
+        const end = new Date(row[cols.endDate]);
+        end.setHours(23, 59, 59, 999);
+        if (today > end) continue;
+      }
+
+      if (cols.language >= 0 && countryCode === 'TW') {
+        const lang = String(row[cols.language] || '').trim();
+        if (lang && lang !== 'zh-TW' && lang !== 'zh-CN') continue;
+      }
+
+      regions.push({ id: id, text: fullDesc, sortOrder: sortOrder });
+    }
+
     regions.sort((a, b) => a.sortOrder - b.sortOrder);
-    
     Logger.log('✅ 成功读取 ' + regions.length + ' 个评估地点');
     return regions;
-    
   } catch (error) {
     Logger.log('❌ 读取评估地点失败: ' + error);
     Logger.log('详细错误: ' + error.stack);
@@ -124,7 +185,7 @@ function getPromoterInfo(refCode) {
   const promoterMapping = getPromoterMapping();
   const defaultInfo = {
     email: DEFAULT_EMAIL,
-    name: 'AI+自媒體零元創業'
+    name: PROGRAM_NAME
   };
   
   const promoterInfo = promoterMapping[refCode] || defaultInfo;
@@ -206,12 +267,14 @@ function doGet(e) {
     
     // 获取评估地点列表
     if (action === 'getRegions') {
-      const regions = getRegionList();
-      
+      const country = (e && e.parameter && e.parameter.country) ? e.parameter.country : 'TW';
+      const regions = getRegionList(country);
+
       return ContentService.createTextOutput(JSON.stringify({
         success: true,
         regions: regions,
-        count: regions.length
+        count: regions.length,
+        country: country
       })).setMimeType(ContentService.MimeType.JSON);
     }
     
@@ -276,8 +339,10 @@ function doPost(e) {
     saveCustomerToSheet(customerData);
     
     // 發送通知郵件給推廣人員
-    const promoterSubject = `🎯 新客戶報名通知 - ${customerName}`;
+    const promoterSubject = `🎯 新報名「${PROGRAM_NAME}」- ${customerName}`;
     const promoterBody = `
+【${PROGRAM_NAME}】新客戶報名通知
+
 親愛的 ${promoterInfo.name}，
 
 恭喜！您有一位新客戶報名了！
@@ -305,7 +370,7 @@ WhatsApp：${customerWhatsapp}
 祝您成交順利！🎉
 
 ---
-AI+自媒體零元創業
+${PROGRAM_NAME}
 自動通知系統
     `.trim();
     
@@ -337,7 +402,7 @@ ${customerName}，
 
 🔑 密碼：13579
 
-我們期待與您在社群中見面，一起探索 AI 創業的無限可能！🚀
+我們期待與您在社群中見面，一起探索 AI自媒體零元創業的無限可能！🚀
 
 ---
 您的專屬服務顧問：

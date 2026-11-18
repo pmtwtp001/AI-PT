@@ -545,6 +545,37 @@ body {
     margin: 20px auto 0;
 }
 
+/* 圖片熱區：點擊直接開報名表（選項 B 等） */
+.clickable-banner {
+    display: block;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    line-height: 0;
+    text-align: center;
+}
+
+.clickable-banner:focus-visible {
+    outline: 3px solid #f97316;
+    outline-offset: 4px;
+    border-radius: 8px;
+}
+
+.clickable-banner .clickable-banner-img {
+    margin: 0;
+    pointer-events: none;
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.clickable-banner:hover .clickable-banner-img {
+    filter: brightness(1.03);
+    transform: scale(1.01);
+}
+
 .top5-cta {
     width: 100%;
     max-width: 1200px;

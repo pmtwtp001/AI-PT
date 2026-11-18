@@ -22,6 +22,7 @@
 const SPREADSHEET_ID = '1YUeS99x4qoSX3A216en65AQJEcADUCPCXY6hAnEEKcg';  // ⚠️ 必須修改
 const SHEET_NAME = '推廣人員';  // Sheet 分頁名稱（第1個頁簽）
 const DEFAULT_EMAIL = 'jordantsai777@gmail.com';  // 預設郵箱（找不到推廣代碼時使用）
+const PROGRAM_NAME = 'AI自媒體零元創業';
 const CACHE_DURATION = 600;  // 緩存時間（秒）- 10 分鐘
 const CUSTOMER_SHEET_NAME = '客戶報名記錄';
 const CUSTOMER_HEADERS = [
@@ -312,8 +313,10 @@ function doPost(e) {
     // ========================================
     // 2. 發送通知郵件給推廣人員
     // ========================================
-    const promoterSubject = `🎯 新客戶報名通知 - ${customerName}`;
+    const promoterSubject = `🎯 新報名「${PROGRAM_NAME}」- ${customerName}`;
     const promoterBody = `
+【${PROGRAM_NAME}】新客戶報名通知
+
 親愛的推廣夥伴，
 
 恭喜！您有一位新客戶報名了！
@@ -341,7 +344,7 @@ WhatsApp：${customerWhatsapp}
 祝您成交順利！🎉
 
 ---
-AI+自媒體零元創業
+${PROGRAM_NAME}
 自動通知系統
     `.trim();
     
@@ -360,7 +363,7 @@ AI+自媒體零元創業
     // 3. 發送確認郵件給報名客戶
     // ========================================
     if (customerEmail) {
-      const customerSubject = `感謝您報名「AI+自媒體零元創業」`;
+      const customerSubject = `感謝您報名「${PROGRAM_NAME}」`;
       
       // 準備地區信息顯示
       const regionInfo = customerRegion ? `\n\n記得您的時間與地址：${customerRegion}` : '';
@@ -368,7 +371,7 @@ AI+自媒體零元創業
       const customerBody = `
 ${customerName}，
 
-感謝您對「AI+自媒體零元創業」有興趣！${regionInfo}
+感謝您對「${PROGRAM_NAME}」有興趣！${regionInfo}
 
 歡迎您的到來！
 
@@ -380,7 +383,7 @@ ${customerName}，
 我們期待與您在社群中見面，一起探索 AI 創業的無限可能！🚀
 
 ---
-AI+自媒體零元創業 團隊
+${PROGRAM_NAME} 團隊
       `.trim();
       
       try {
