@@ -5,6 +5,9 @@ $Files = @(
     '/data/top.png',
     '/data/top1.png',
     '/data/top10.png',
+    '/data/top12.png',
+    '/data/top13.png',
+    '/data/top14.png',
     '/styles.css',
     '/script.js'
 )

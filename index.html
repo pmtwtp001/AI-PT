@@ -3,15 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>AI+自媒體零元創業</title>
+    <!-- 每次部署請更新 SITE_VERSION（與下方 CSS/JS、圖片 ?v= 一致） -->
+    <script>
+    (function () {
+        var SITE_VERSION = '20261119';
+        try {
+            var url = new URL(window.location.href);
+            if (url.searchParams.get('v') === SITE_VERSION) return;
+            url.searchParams.set('v', SITE_VERSION);
+            window.location.replace(url.toString());
+        } catch (e) { /* LINE 私密模式等 */ }
+    })();
+    </script>
     
     <!-- Open Graph / 社交媒體分享預覽 - LINE專用優化 -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="AI+自媒體零元創業">
     <meta property="og:description" content="限時優惠！AI+自媒體零元創業，前100名無需付費，原價NT$2000元，現在報名免費！">
-    <meta property="og:url" content="https://lambent-pothos-ddb830.netlify.app/">
-    <meta property="og:image" content="https://lambent-pothos-ddb830.netlify.app/data/top.png?v=20260818">
-    <meta property="og:image:secure_url" content="https://lambent-pothos-ddb830.netlify.app/data/top.png?v=20260818">
+    <meta property="og:url" content="https://lambent-pothos-ddb830.netlify.app/line.html">
+    <meta property="og:image" content="https://lambent-pothos-ddb830.netlify.app/data/top.png?v=20261119">
+    <meta property="og:image:secure_url" content="https://lambent-pothos-ddb830.netlify.app/data/top.png?v=20261119">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -21,13 +36,13 @@
     <meta name="line:card" content="summary_large_image">
     <meta name="line:title" content="AI+自媒體零元創業">
     <meta name="line:description" content="限時優惠！AI+自媒體零元創業，前100名無需付費，原價NT$2000元，現在報名免費！">
-    <meta name="line:image" content="https://lambent-pothos-ddb830.netlify.app/data/top.png?v=20260818">
+    <meta name="line:image" content="https://lambent-pothos-ddb830.netlify.app/data/top.png?v=20261119">
     
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="AI+自媒體零元創業">
     <meta name="twitter:description" content="限時優惠！AI+自媒體零元創業，前100名無需付費，原價NT$2000元，現在報名免費！">
-    <meta name="twitter:image" content="https://lambent-pothos-ddb830.netlify.app/data/top.png?v=20260818">
+    <meta name="twitter:image" content="https://lambent-pothos-ddb830.netlify.app/data/top.png?v=20261119">
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://lambent-pothos-ddb830.netlify.app/">
@@ -36,12 +51,12 @@
     <meta name="description" content="限時優惠！AI+自媒體零元創業，前100名無需付費，原價NT$2000元，現在報名免費！">
     <meta name="keywords" content="AI,自媒體,創業,賺錢,線上課程,限時優惠">
     
-    <link rel="stylesheet" href="styles.css?v=20261118">
+    <link rel="stylesheet" href="styles.css?v=20261119">
     
     <!-- 预加载关键资源 -->
-    <link rel="preload" href="styles.css?v=20261118" as="style">
-    <link rel="preload" href="translations.js" as="script">
-    <link rel="preload" href="script.js" as="script">
+    <link rel="preload" href="styles.css?v=20261119" as="style">
+    <link rel="preload" href="translations.js?v=20261119" as="script">
+    <link rel="preload" href="script.js?v=20261119" as="script">
     
     <!-- DNS 预解析 -->
     <link rel="dns-prefetch" href="https://script.google.com">
@@ -76,18 +91,17 @@
     <div class="hero-image-section">
         <div class="hero-image-wrapper">
             <div class="hero-image-frame">
-                <img src="data/top.png" alt="AI+自媒體零元創業" class="hero-top-image" loading="eager" fetchpriority="high" decoding="async" width="1200" height="630">
+                <img id="hero-top-main" src="data/top.png?v=20261119" alt="AI+自媒體零元創業" class="hero-top-image" loading="eager" fetchpriority="high" decoding="async" width="1200" height="630">
                 <div class="hero-top-cta-group">
-                    <p class="current-price hero-top-price"><span class="highlight" data-i18n="highlight">限時免費</span>！</p>
-                    <button class="cta-button pulse hero-top-cta" data-i18n="cta-button">搶先報名</button>
+                    <button type="button" class="cta-button pulse hero-top-cta" data-i18n="hero-top-cta">限時免費報名</button>
                 </div>
             </div>
         </div>
     </div>
-    <img src="data/top1.png" alt="AI+自媒體零元創業" class="video-below-image" loading="eager" decoding="async" width="1200" height="630">
-    <div class="hero-image-section">
+    <img src="data/top1.png?v=20261119" alt="AI+自媒體零元創業" class="video-below-image" loading="eager" decoding="async" width="1200" height="630">
+    <div class="hero-image-section hero-strip-connected">
         <div class="hero-image-wrapper">
-            <img src="data/top2.png" alt="AI+自媒體零元創業" class="hero-top-image" loading="eager" decoding="async" width="1200" height="630">
+            <img src="data/top2.png?v=20261119" alt="AI+自媒體零元創業" class="hero-top-image" loading="eager" decoding="async" width="1200" height="630">
         </div>
     </div>
     <!-- 短影音重點內容 
@@ -121,9 +135,10 @@
             </div>
         </div>
     </section>
+    -->
 
-    <!-- Hero Section -->
-    <section class="hero-section">
+    <!-- Hero Section（接在 top2 下，與主圖同一白底帶） -->
+    <section class="hero-section hero-section--connected">
         <div class="container">
             <!--<div class="media-logos">
                 <p>Windows | macOS | Android | iOS / iPadOS| Virtual | AWS | IBM | Google | Microsoft | Apple | Amazon | Facebook | Twitter | Instagram | LinkedIn | YouTube | TikTok | </p>
@@ -166,6 +181,7 @@
             </div>
         </div>
     </section>
+    <img src="data/top3.png?v=20261119" alt="AI+自媒體零元創業" class="video-below-image video-below-image--after-hero" loading="eager" decoding="async" width="1200" height="630">
 
     <!-- 视频演示区 
     <section class="video-section">
@@ -262,16 +278,19 @@
         </div>
     </section>
 -->
-    <img src="data/top4.png" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
-    <img src="data/top5.png" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
-    <img src="data/top6.png" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
-    <img src="data/top7.png" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
-    <img src="data/top8.png" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
-    <img src="data/top9.png" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
+    <img src="data/top4.png?v=20261119" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
+    <img src="data/top5.png?v=20261119" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
+    <img src="data/top6.png?v=20261119" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
+    <img src="data/top7.png?v=20261119" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
+    <img src="data/top8.png?v=20261119" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
+    <img src="data/top9.png?v=20261119" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
+    <img src="data/top10.png?v=20261119" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
+    <img src="data/top11.png?v=20261119" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
+    <img src="data/top12.png?v=20261119" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
     <button type="button" class="clickable-banner open-register-on-click" aria-label="選項 B：拿走全套獲利系統，立即報名">
-        <img src="data/top10.png" alt="選項 B：拿走全套獲利系統" class="video-below-image clickable-banner-img" loading="lazy" width="1200" height="630">
+        <img src="data/top13.png?v=20261119" alt="選項 B：拿走全套獲利系統" class="video-below-image clickable-banner-img" loading="lazy" width="1200" height="630">
     </button>
-    <img src="data/top11.png" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
+    <img src="data/top14.png?v=20261119" alt="AI+自媒體零元創業" class="video-below-image" loading="lazy" width="1200" height="630">
 
     <!-- 系统演示案例 
     <section class="demo-cases">
@@ -543,8 +562,8 @@
         </div>
     </div>
 
-    <script src="translations.js?v=2024112202" defer></script>
-    <script src="script.js?v=20261118b" defer></script>
+    <script src="translations.js?v=20261119" defer></script>
+    <script src="script.js?v=20261119" defer></script>
 </body>
 </html>
 

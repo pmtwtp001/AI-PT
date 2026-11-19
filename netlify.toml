@@ -7,6 +7,50 @@
     X-Frame-Options = "SAMEORIGIN"
     X-Content-Type-Options = "nosniff"
 
+# HTML：每次上線都應向伺服器確認，避免舊连结吃到過期快取（LINE 內建瀏覽器尤甚）
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache, must-revalidate"
+    Pragma = "no-cache"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache, must-revalidate"
+    Pragma = "no-cache"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-cache, must-revalidate"
+    Pragma = "no-cache"
+
+# LINE 轉址入口：盡量不要快取（分享用這個連結）
+[[headers]]
+  for = "/line.html"
+  [headers.values]
+    Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
+    Pragma = "no-cache"
+    Expires = "0"
+
+# JS/CSS 本體（無 ?v= 時）：縮短快取
+[[headers]]
+  for = "/script.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/translations.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/styles.css"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# 圖片：可用 ?v=日期 換網址強制更新；未帶參數時快取 1 天
 [[headers]]
   for = "/data/*"
   [headers.values]

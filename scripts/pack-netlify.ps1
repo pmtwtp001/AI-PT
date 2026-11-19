@@ -1,4 +1,4 @@
-# Netlify deploy pack - includes all assets referenced in index.html
+﻿# Netlify deploy pack - includes all assets referenced in index.html
 # Run: powershell -ExecutionPolicy Bypass -File scripts/pack-netlify.ps1
 
 $ErrorActionPreference = 'Stop'
@@ -12,6 +12,8 @@ $dataDst = Join-Path $deploy 'data'
 
 $coreFiles = @(
     'index.html',
+    'line.html',
+    '_redirects',
     'script.js',
     'styles.css',
     'translations.js',
@@ -23,6 +25,7 @@ $coreFiles = @(
 $requiredAssets = @(
     'top.png', 'top1.png', 'top2.png', 'top3.png', 'top4.png', 'top5.png',
     'top6.png', 'top7.png', 'top8.png', 'top9.png', 'top10.png', 'top11.png',
+    'top12.png', 'top13.png', 'top14.png',
     '1.png', '2.png', '3.png', '4.png',
     'IG6.mp4',
     'line-qrcode.png',
@@ -32,7 +35,7 @@ $requiredAssets = @(
 function Get-DataRefsFromFile([string]$filePath) {
     if (-not (Test-Path $filePath)) { return @() }
     $text = Get-Content -Path $filePath -Raw -Encoding UTF8
-    $pattern = '(?:src|href|url\()\s*["'']?data/([^"''?\s)]+)'
+    $pattern = 'data/([^\s"''?)]+)'
     $found = @()
     foreach ($m in [regex]::Matches($text, $pattern)) {
         $found += $m.Groups[1].Value
@@ -51,19 +54,15 @@ foreach ($f in $coreFiles) {
     Copy-Item $src $deploy -Force
 }
 
-$redirectsSrc = Join-Path $root '_redirects'
-if (Test-Path $redirectsSrc) {
-    Copy-Item $redirectsSrc $deploy -Force
-} else {
-    '/*    /index.html   200' | Set-Content -Path (Join-Path $deploy '_redirects') -Encoding ASCII -NoNewline
-}
+# _redirects 只含 /line、/l 捷徑；勿加入 /* → index.html
 
 $howToPath = Join-Path $deploy 'NETLIFY-UPLOAD-README.txt'
 @(
     '=== Avoid Netlify 404 (Page not found) ===',
     '',
-    'CORRECT URL:',
-    '  https://lambent-pothos-ddb830.netlify.app/',
+    'CORRECT URL (share in LINE):',
+    '  https://lambent-pothos-ddb830.netlify.app/line.html',
+    '  or https://lambent-pothos-ddb830.netlify.app/line',
     '',
     'CORRECT upload:',
     '  A) Drag folder netlify-deploy into your site Deploys',
@@ -111,19 +110,6 @@ if ($missing.Count -gt 0) {
 
 $stamp = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
 $manifestPath = Join-Path $deploy 'ASSET_MANIFEST.txt'
-$uploadHint = Join-Path $deploy '!!!請拖放此資料夾到Netlify-Deploys.txt'
-@(
-    '【重要 — 避免網站空白】',
-    '',
-    '1. https://app.netlify.com -> lambent-pothos-ddb830 -> Deploys',
-    '2. 拖入「整個 netlify-deploy 資料夾」（不是 zip 父層、不是只有 index.html）',
-    '3. 部署後開啟：',
-    '   https://lambent-pothos-ddb830.netlify.app/data/top.png',
-    '   必須看到宣傳圖；若 404 或網頁文字 = 部署錯誤',
-    '',
-    "本包 data 檔案數：$copied",
-    '切勿加入 _redirects（/* -> index.html 會讓圖片全壞）'
-) | Set-Content -Path $uploadHint -Encoding UTF8
 
 if (-not (Test-Path (Join-Path $dataDst 'top.png'))) {
     throw 'Pack error: data/top.png missing in deploy folder'

@@ -14,6 +14,7 @@ const translations = {
         'original-price': 'AI+自媒體零元創業',
         'current-price': '✅ 按報名查看時間地點',
         'highlight': '限時免費',
+        'hero-top-cta': '限時免費報名',
         'urgency-text': '⏱️ 優惠結束 → 立刻回到 NT$2,000！截止 11.59pm ⏱️',
         'cta-button': '搶先報名',
         
@@ -148,6 +149,7 @@ const translations = {
         'original-price': 'AI+自媒体零元创业',
         'current-price': '✅ 按报名查看时间地点',
         'highlight': '限时免费',
+        'hero-top-cta': '限时免费报名',
         'urgency-text': '⏱️ 优惠结束 → 立刻回到 NT$2,000！截止 11.59pm ⏱️',
         'cta-button': '抢先报名',
         'timer-days': '天',
@@ -262,6 +264,7 @@ const translations = {
         'original-price': 'AI + Social Media Zero-Cost Startup',
         'current-price': '✅ Click to view time/location',
         'highlight': 'Limited Time Free',
+        'hero-top-cta': 'Free Registration (Limited)',
         'urgency-text': '⏱️ Offer Ends → Back to NT$2,000! Deadline 11:59pm ⏱️',
         'cta-button': 'Register Now',
         'timer-days': 'Days',
@@ -479,7 +482,7 @@ function updateSocialMediaImage(lang) {
     }
     
     const baseUrl = 'https://lambent-pothos-ddb830.netlify.app/data/';
-    const cacheBust = '?v=20260818';
+    const cacheBust = '?v=20261119';
     const imageUrl = baseUrl + imageName + cacheBust;
     
     // 更新 Open Graph 圖片（Facebook、LINE 等會讀取）
@@ -515,14 +518,9 @@ function updateSocialMediaImage(lang) {
         console.log('✅ 已更新頁面主圖片為:', imageName);
     }
     
-    // 🖼️ 更新頂部圖片（top.png）
-    const topImageName = 'top.png';
-    console.log('✅ 使用頂部圖片:', topImageName);
-    
-    const topImage = document.querySelector('.hero-top-image');
+    const topImage = document.getElementById('hero-top-main');
     if (topImage) {
-        topImage.src = 'data/' + topImageName + cacheBust;
-        console.log('✅ 已更新頂部圖片為:', topImageName);
+        topImage.src = 'data/top.png' + cacheBust;
     }
 }
 

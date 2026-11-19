@@ -170,6 +170,50 @@ body {
     margin: 0;
 }
 
+/* top2 + Hero 報名區：同一白底帶，視覺連貫 */
+.hero-strip-connected {
+    background: var(--white);
+    padding-bottom: 0;
+    margin-top: 0;
+}
+
+.hero-strip-connected .hero-image-wrapper {
+    margin-bottom: 0;
+}
+
+.hero-strip-connected .hero-top-image {
+    margin-bottom: 0;
+}
+
+.hero-section--connected {
+    background: var(--white);
+    padding: 0 0 32px;
+    margin: 0 auto;
+    max-width: 1200px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+}
+
+.hero-section--connected .container {
+    padding: 0 20px;
+}
+
+.hero-section--connected .offer-box {
+    box-shadow: none;
+    border-radius: 0;
+    padding: 28px 24px 20px;
+    margin: 0;
+    max-width: none;
+}
+
+.hero-section--connected .countdown-timer {
+    margin-top: 8px;
+}
+
+.video-below-image--after-hero {
+    margin-top: 24px;
+}
+
 /* 短影音重點內容 */
 .short-video-note {
     background: rgba(255, 255, 255, 0.92);

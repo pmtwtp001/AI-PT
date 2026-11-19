@@ -1,0 +1,3 @@
+# 僅捷徑，勿用 /* → index（會弄壞 /data 圖片）
+/line    /line.html   200
+/l       /line.html   200
